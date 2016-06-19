@@ -1,0 +1,24 @@
+{
+  "name": "new-thunk",
+  "version": "0.0.0",
+  "description": "new thunk",
+  "main": "thunk.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "thunk"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "LightSpeedWorks/new-thunk"
+  },
+  "bugs": {
+    "url": "https://github.com/LightSpeedWorks/new-thunk/issues"
+  },
+  "homepage": "https://github.com/LightSpeedWorks/new-thunk",
+  "author": "LightSpeedC",
+  "scripts": {
+    "test": "mocha"
+  },
+  "license": "MIT"
+}

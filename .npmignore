@@ -1,0 +1,6 @@
+.git*
+.npm*
+lib/
+test/
+work/
+todo.md
