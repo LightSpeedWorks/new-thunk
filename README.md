@@ -41,12 +41,12 @@ var Thunk = require('new-thunk');
 Thunk Specification
 ----
 
-### new Thunk(setup)
+### Thunk(setup)
 
 how to make thunk.
 
 ```js
-thunk = new Thunk(
+thunk = Thunk(
   function setup(callback) {
     // async process -> callback(error, value)
     try { callback(null, 'value'); }
@@ -60,7 +60,7 @@ thunk = new Thunk(
 example
 
 ```js
-var thunk = new Thunk(
+var thunk = Thunk(
   function setup(callback) {
     setTimeout(function () {
       if (Math.random() < 0.5) callback(null, 'value');
