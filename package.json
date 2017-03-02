@@ -1,6 +1,6 @@
 {
   "name": "new-thunk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "new thunk",
   "main": "thunk.js",
   "dependencies": {},
