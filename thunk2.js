@@ -14,7 +14,6 @@ function Thunk(setup, cb) {
 	var args = null, notYetSetup = true;
 	var next = null, result = undefined, notYetResult = true;
 
-	callback.promise = null;
 	callback.then = then;
 	callback['catch'] = caught;
 
@@ -36,14 +35,12 @@ function Thunk(setup, cb) {
 				try { notYetSetup = false; setup(callback, callback); }
 				catch (err) { callback(err); }
 
-			//if (!next) {
-				next = Thunk();
-				list.push(function (err, val) {
-					var args = normalizeArgs(arguments);
-					try { return valcb(first.apply(null, args), next); }
-					catch (err) { return next(err); }
-				});
-			//}
+			next = Thunk();
+			list.push(function (err, val) {
+				var args = normalizeArgs(arguments);
+				try { return valcb(first.apply(null, args), next); }
+				catch (err) { return next(err); }
+			});
 			if (args) fire();
 			return next;
 		}
@@ -61,7 +58,8 @@ function Thunk(setup, cb) {
 		//}
 
 		if (!args) args = normalizeArgs(arguments);
-		return next ? fire() : void 0;
+		return list.length > 0 ? fire() : void 0;
+		//return next ? fire() : void 0;
 	} // callback
 
 	function fire() {
@@ -86,30 +84,25 @@ function normalizeArgs(args) {
 }
 
 function caught(rejected) {
-	var next = Thunk();
+	var cb = Thunk();
 	this(function (err, val) {
 		try { return valcb(err ?
 			rejected ? rejected(err) : err :
-			val, next);
-		} catch (e) { return next(e); }
+			val, cb);
+		} catch (e) { return cb(e); }
 	});
-	return next;
-//	return this.then(void 0, rejected);
+	return cb;
 }
 
 function then(resolved, rejected) {
-	var next = Thunk();
+	var cb = Thunk();
 	this(function (err, val) {
 		try { return valcb(err ?
 			rejected ? rejected(err) : err :
-			resolved ? resolved(val) : val, next);
-		} catch (e) { return next(e); }
+			resolved ? resolved(val) : val, cb);
+		} catch (e) { return cb(e); }
 	});
-	return next;
-//	var thunk = this;
-//	return (this.promise || (this.promise = new Promise(function (res, rej) {
-//		thunk(function (err, val) { return err ? rej(err) : res(val); });
-//	}))).then(resolved, rejected);
+	return cb;
 }
 
 //================================================================================
